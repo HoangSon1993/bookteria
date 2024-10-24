@@ -39,7 +39,21 @@
             src/main/java/com/sondev/identity_service/mapper/**
             src/main/java/com/sondev/identity_service/configuration/**
         </sonar.coverage.exclusions>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
     </properties>
+    <!--        Openfeign-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <!--       end Openfeign-->
     <dependencies>
 
         <!--        Phục vụ cho viết Unit Test-->
@@ -132,18 +146,25 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!--        Openfeign-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!--      end  Openfeign-->
     </dependencies>
 
     <build>
         <plugins>
-<!--            spotless : giúp format code-->
+            <!--            spotless : giúp format code-->
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
                 <version>${spotless.version}</version>
                 <configuration>
                     <java>
-                        <removeUnusedImports />
+                        <removeUnusedImports/>
                         <toggleOffOn/>
                         <trimTrailingWhitespace/>
                         <endWithNewline/>

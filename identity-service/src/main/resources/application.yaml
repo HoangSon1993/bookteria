@@ -20,5 +20,9 @@ jwt:
   valid-duration: 3600 # in seconds, 1h
   refreshable-duration: 3600000 # in seconds, 10h
 
+app:
+  services:
+    profile: http://localhost:8081/profile
+
 # mvn clean
 # mvn package
