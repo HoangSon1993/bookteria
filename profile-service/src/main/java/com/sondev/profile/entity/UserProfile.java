@@ -1,4 +1,4 @@
-package org.sondev.profile.entity;
+package com.sondev.profile.entity;
 
 import java.time.LocalDate;
 

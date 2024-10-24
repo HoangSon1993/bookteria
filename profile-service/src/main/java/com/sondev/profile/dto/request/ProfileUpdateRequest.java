@@ -1,4 +1,4 @@
-package org.sondev.profile.dto.request;
+package com.sondev.profile.dto.request;
 
 import java.time.LocalDate;
 

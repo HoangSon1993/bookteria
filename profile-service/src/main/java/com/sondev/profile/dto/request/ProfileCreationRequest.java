@@ -1,4 +1,4 @@
-package org.sondev.profile.dto.response;
+package com.sondev.profile.dto.request;
 
 import java.time.LocalDate;
 
@@ -11,8 +11,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserProfileResponse {
-    String id;
+public class ProfileCreationRequest {
+    String userId;
     String firstName;
     String lastName;
     LocalDate dob;

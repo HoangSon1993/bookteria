@@ -1,4 +1,4 @@
-package org.sondev.profile;
+package com.sondev.profile;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

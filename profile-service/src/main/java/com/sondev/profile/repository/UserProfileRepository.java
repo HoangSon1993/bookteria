@@ -1,8 +1,9 @@
-package org.sondev.profile.repository;
+package com.sondev.profile.repository;
 
-import org.sondev.profile.entity.UserProfile;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
+
+import com.sondev.profile.entity.UserProfile;
 
 @Repository
 public interface UserProfileRepository extends Neo4jRepository<UserProfile, String> {}

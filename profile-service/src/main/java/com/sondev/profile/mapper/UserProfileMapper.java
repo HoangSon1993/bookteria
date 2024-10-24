@@ -1,11 +1,12 @@
-package org.sondev.profile.mapper;
+package com.sondev.profile.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.sondev.profile.dto.request.ProfileCreationRequest;
-import org.sondev.profile.dto.request.ProfileUpdateRequest;
-import org.sondev.profile.dto.response.UserProfileResponse;
-import org.sondev.profile.entity.UserProfile;
+
+import com.sondev.profile.dto.request.ProfileCreationRequest;
+import com.sondev.profile.dto.request.ProfileUpdateRequest;
+import com.sondev.profile.dto.response.UserProfileResponse;
+import com.sondev.profile.entity.UserProfile;
 
 @Mapper(componentModel = "spring")
 public interface UserProfileMapper {

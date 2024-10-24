@@ -1,14 +1,15 @@
-package org.sondev.profile.service;
+package com.sondev.profile.service;
 
 import java.util.List;
 
-import org.sondev.profile.dto.request.ProfileCreationRequest;
-import org.sondev.profile.dto.request.ProfileUpdateRequest;
-import org.sondev.profile.dto.response.UserProfileResponse;
-import org.sondev.profile.entity.UserProfile;
-import org.sondev.profile.mapper.UserProfileMapper;
-import org.sondev.profile.repository.UserProfileRepository;
 import org.springframework.stereotype.Service;
+
+import com.sondev.profile.dto.request.ProfileCreationRequest;
+import com.sondev.profile.dto.request.ProfileUpdateRequest;
+import com.sondev.profile.dto.response.UserProfileResponse;
+import com.sondev.profile.entity.UserProfile;
+import com.sondev.profile.mapper.UserProfileMapper;
+import com.sondev.profile.repository.UserProfileRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

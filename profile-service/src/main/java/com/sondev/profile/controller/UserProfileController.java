@@ -1,12 +1,13 @@
-package org.sondev.profile.controller;
+package com.sondev.profile.controller;
 
 import java.util.List;
 
-import org.sondev.profile.dto.request.ProfileCreationRequest;
-import org.sondev.profile.dto.request.ProfileUpdateRequest;
-import org.sondev.profile.dto.response.UserProfileResponse;
-import org.sondev.profile.service.UserProfileService;
 import org.springframework.web.bind.annotation.*;
+
+import com.sondev.profile.dto.request.ProfileCreationRequest;
+import com.sondev.profile.dto.request.ProfileUpdateRequest;
+import com.sondev.profile.dto.response.UserProfileResponse;
+import com.sondev.profile.service.UserProfileService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,27 +20,27 @@ public class UserProfileController {
         this.userProfileService = userProfileService;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     UserProfileResponse createProfile(@RequestBody ProfileCreationRequest request) {
         return userProfileService.createProfile(request);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     List<UserProfileResponse> getUserProfile() {
         return userProfileService.getProfiles();
     }
 
-    @GetMapping("/user/{profileId}")
+    @GetMapping("/users/{profileId}")
     UserProfileResponse getProfile(@PathVariable String profileId) {
         return userProfileService.getUserProfile(profileId);
     }
 
-    @PutMapping("/user/{profileId}")
+    @PutMapping("/users/{profileId}")
     UserProfileResponse updateProfile(@PathVariable String profileId, @RequestBody ProfileUpdateRequest request) {
         return userProfileService.updateProfile(profileId, request);
     }
 
-    @DeleteMapping("user/{profileId}")
+    @DeleteMapping("/users/{profileId}")
     void deleteProfile(@PathVariable String profileId) {
         userProfileService.deleteProfile(profileId);
     }
