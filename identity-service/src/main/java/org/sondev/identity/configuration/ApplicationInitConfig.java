@@ -2,8 +2,9 @@ package org.sondev.identity.configuration;
 
 import java.util.HashSet;
 
+import org.sondev.identity.entity.Role;
 import org.sondev.identity.entity.User;
-import org.sondev.identity.enums.Role;
+import org.sondev.identity.repository.RoleRepository;
 import org.sondev.identity.repository.UserRepository;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class ApplicationInitConfig {
     private final PasswordEncoder passwordEncoder;
+
+    String ADMIN_USER_NAME = "admin";
+    String ADMIN_PASSWORD = "admin";
 
     public ApplicationInitConfig(final PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -34,16 +38,19 @@ public class ApplicationInitConfig {
             value = "datasource.driverClassName",
             havingValue = "com.mysql.cj.jdbc.Driver",
             matchIfMissing = false)
-    ApplicationRunner applicationRunner(UserRepository userRepository) {
+    ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         log.info("init appilication ......");
         return args -> {
-            if (userRepository.findByUsername("admin").isEmpty()) {
-                var roles = new HashSet<String>();
-                roles.add(Role.ADMIN.name());
+            if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
+                var adminRole = roleRepository.save(
+                        Role.builder().name("ADMIN").description("Admin role").build());
+                var roles = new HashSet<Role>();
+                roles.add(adminRole);
+
                 User user = User.builder()
-                        .username("admin")
-                        .password(passwordEncoder.encode("admin"))
-                        // .roles(roles)
+                        .username(ADMIN_USER_NAME)
+                        .password(passwordEncoder.encode(ADMIN_PASSWORD))
+                        .roles(roles)
                         .build();
                 userRepository.save(user);
                 log.warn("Admin user has been created with default password: admin, please change it.");

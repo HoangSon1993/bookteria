@@ -8,6 +8,7 @@ import org.sondev.profile.dto.response.UserProfileResponse;
 import org.sondev.profile.entity.UserProfile;
 import org.sondev.profile.mapper.UserProfileMapper;
 import org.sondev.profile.repository.UserProfileRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,7 @@ public class UserProfileService {
         userProfileRepository.deleteById(profileId);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserProfileResponse> getProfiles() {
         List<UserProfile> userProfiles = userProfileRepository.findAll();
         return userProfiles.stream()
