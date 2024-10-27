@@ -19,27 +19,27 @@ public class InternalUserProfileController {
         this.userProfileService = userProfileService;
     }
 
-    @PostMapping("${app.prefix-internal}/users")
+    @PostMapping("/internal/users")
     UserProfileResponse createProfile(@RequestBody ProfileCreationRequest request) {
         return userProfileService.createProfile(request);
     }
 
-    @GetMapping("${app.prefix-internal}/users")
+    @GetMapping("/internal/users")
     List<UserProfileResponse> getUserProfile() {
         return userProfileService.getProfiles();
     }
 
-    @GetMapping("${app.prefix-internal}/users/{profileId}")
+    @GetMapping("/internal/users/{profileId}")
     UserProfileResponse getProfile(@PathVariable String profileId) {
         return userProfileService.getUserProfile(profileId);
     }
 
-    @PutMapping("${app.prefix-internal}/users/{profileId}")
+    @PutMapping("/internal/users/{profileId}")
     UserProfileResponse updateProfile(@PathVariable String profileId, @RequestBody ProfileUpdateRequest request) {
         return userProfileService.updateProfile(profileId, request);
     }
 
-    @DeleteMapping("${app.prefix-internal}/users/{profileId}")
+    @DeleteMapping("/internal/users/{profileId}")
     void deleteProfile(@PathVariable String profileId) {
         userProfileService.deleteProfile(profileId);
     }

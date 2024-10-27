@@ -1,7 +1,4 @@
 
-app:
-  prefix-internal: /internal
-
 server:
   port: 8081
   servlet:

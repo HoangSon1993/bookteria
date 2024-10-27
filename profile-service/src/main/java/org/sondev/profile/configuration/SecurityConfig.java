@@ -19,6 +19,7 @@ import org.springframework.web.filter.CorsFilter;
 /** cần có để có thể kích hoạt Authentication Method. **/
 @EnableMethodSecurity
 public class SecurityConfig {
+    private static final String[] PUBLIC_ENDPOINTS = {};
 
     private final CustomJwtDecoder customJwtDecoder;
 
@@ -28,16 +29,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST)
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
                 .permitAll()
-
-                // .requestMatchers(HttpMethod.GET, "/users")
-                /** Ngoài sử dụng hasAnyAuthority có thể sử dụng hasRole
-                 * hasAnyAuthority("ROLE_ADMIN")
-                 * hasRole(Role.ADMIN.name()) ==> không cần cung cấp prefix (ROLE_)
-                 **/
-                // .hasRole(Role.ADMIN.name())
-
                 .anyRequest()
                 .authenticated());
 
@@ -54,22 +47,6 @@ public class SecurityConfig {
         /* httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable()); */
         return httpSecurity.build();
     }
-
-    /**
-     * @General: Chịu trách nhiệm cho việc verify token
-     * @Description: Mỗi khi client gửi request lên, jwtDecoder sẽ tiến hành giải mã token.
-     */
-    /*
-    	@Bean
-    	JwtDecoder jwtDecoder() {
-    		SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HmacSHA512");
-
-    		return NimbusJwtDecoder
-    				.withSecretKey(secretKeySpec)
-    				.macAlgorithm(MacAlgorithm.HS512)
-    				.build();
-    	}
-    */
 
     /**
      * @General: Cấu hình CORS

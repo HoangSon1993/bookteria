@@ -17,7 +17,7 @@ import org.sondev.identity.mapper.ProfileMapper;
 import org.sondev.identity.mapper.UserMapper;
 import org.sondev.identity.repository.RoleRepository;
 import org.sondev.identity.repository.UserRepository;
-import org.sondev.identity.repository.httpClient.ProfileClient;
+import org.sondev.identity.repository.httpclient.ProfileClient;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
