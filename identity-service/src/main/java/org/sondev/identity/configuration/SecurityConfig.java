@@ -80,23 +80,6 @@ public class SecurityConfig {
     */
 
     /**
-     * @General: Cấu hình CORS
-     */
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:5173");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-
-        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-
-        var corsFilter = new CorsFilter(urlBasedCorsConfigurationSource);
-        return corsFilter;
-    }
-
-    /**
      * @Genaral: Custome behavior
      * @Description: mặc định SCOPE_ADMIN ==> ROLE_ADMIN
      * Khi có sự xuất hiện của permission, để phân biệt thì role có prefix "ROLE_" được xử lý ở hàm {@code buildScope()} nên ở đây prefix = "".
