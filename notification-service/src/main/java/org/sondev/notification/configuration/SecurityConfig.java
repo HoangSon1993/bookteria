@@ -1,4 +1,4 @@
-package org.sondev.identity.configuration;
+package org.sondev.notification.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,17 +7,19 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
 /** cần có để có thể kích hoạt Authentication Method. **/
 @EnableMethodSecurity
 public class SecurityConfig {
+    private static final String[] PUBLIC_ENDPOINTS = {"/email/send"};
 
     private final CustomJwtDecoder customJwtDecoder;
 
@@ -27,22 +29,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(
-                        HttpMethod.POST,
-                        "/users/registration",
-                        "/auth/log-in",
-                        "/auth/introspect",
-                        "/auth/logout",
-                        "/auth/refresh")
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, "/email/send")
                 .permitAll()
-
-                // .requestMatchers(HttpMethod.GET, "/users")
-                /** Ngoài sử dụng hasAnyAuthority có thể sử dụng hasRole
-                 * hasAnyAuthority("ROLE_ADMIN")
-                 * hasRole(Role.ADMIN.name()) ==> không cần cung cấp prefix (ROLE_)
-                 **/
-                // .hasRole(Role.ADMIN.name())
-
                 .anyRequest()
                 .authenticated());
 
@@ -61,20 +49,21 @@ public class SecurityConfig {
     }
 
     /**
-     * @General: Chịu trách nhiệm cho việc verify token
-     * @Description: Mỗi khi client gửi request lên, jwtDecoder sẽ tiến hành giải mã token.
+     * @General: Cấu hình CORS
      */
-    /*
-    	@Bean
-    	JwtDecoder jwtDecoder() {
-    		SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HmacSHA512");
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("http://localhost:5173");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
 
-    		return NimbusJwtDecoder
-    				.withSecretKey(secretKeySpec)
-    				.macAlgorithm(MacAlgorithm.HS512)
-    				.build();
-    	}
-    */
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        var corsFilter = new CorsFilter(urlBasedCorsConfigurationSource);
+        return corsFilter;
+    }
 
     /**
      * @Genaral: Custome behavior
@@ -90,10 +79,5 @@ public class SecurityConfig {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(converter);
 
         return jwtAuthenticationConverter;
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
     }
 }
