@@ -18,7 +18,7 @@ import feign.FeignException;
 public class EmailService {
     private final EmailClient emailClient;
 
-    @Value("${brevo.api-key}")
+    @Value("${notification.email.brevo-apikey}")
     private String apiKey;
 
     public EmailService(EmailClient emailClient) {

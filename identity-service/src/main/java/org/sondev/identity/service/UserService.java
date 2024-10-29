@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.sondev.event.dto.NotificationEvent;
 import org.sondev.identity.dto.request.ProfileCreationRequest;
 import org.sondev.identity.dto.request.UserCreationRequest;
 import org.sondev.identity.dto.request.UserUpdateRequest;
@@ -40,7 +41,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final ProfileClient profileClient;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     /**
      * @General: Tạo mới 1 user
@@ -76,8 +77,16 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXISTS);
         }
 
+        // Notification event
+        NotificationEvent notificationEvent = NotificationEvent.builder()
+                .channel("EMAIL")
+                .recipient(request.getEmail())
+                .subject("Welcome to Bookteria")
+                .body("Hello,  " + request.getUsername() + "!")
+                .build();
+
         // public message to kafka
-        kafkaTemplate.send("onboard-successful", "Welcome our new member: " + user.getUsername());
+        kafkaTemplate.send("notification-delivery", notificationEvent);
 
         return userMapper.toUserResponse(user);
     }

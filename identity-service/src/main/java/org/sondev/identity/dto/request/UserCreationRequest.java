@@ -22,6 +22,8 @@ public class UserCreationRequest {
     @Size(min = 8, message = "INVALID_PASSWORD") // message chính là key của enums
     String password;
 
+    String email;
+
     String firstName;
     String lastName;
 
