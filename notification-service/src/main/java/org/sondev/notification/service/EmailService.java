@@ -1,6 +1,7 @@
 package org.sondev.notification.service;
 
-import feign.FeignException;
+import java.util.List;
+
 import org.sondev.notification.dto.request.EmailRequest;
 import org.sondev.notification.dto.request.SendEmailRequest;
 import org.sondev.notification.dto.request.Sender;
@@ -11,7 +12,7 @@ import org.sondev.notification.repository.httpclient.EmailClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import feign.FeignException;
 
 @Service
 public class EmailService {

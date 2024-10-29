@@ -9,6 +9,14 @@ spring:
     mongodb:
       uri: mongodb://root:root@localhost:27017/notification-service?authSource=admin
 
+  kafka:
+    bootstrap-servers: localhost:9094
+    consumer:
+      group-id: notification-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 # Brevo
 brevo:
   api-key: ${BREVO_APIKEY}

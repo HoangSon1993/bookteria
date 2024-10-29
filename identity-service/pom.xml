@@ -153,6 +153,12 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <!--      end  Openfeign-->
+
+        <!--       Apache Kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
