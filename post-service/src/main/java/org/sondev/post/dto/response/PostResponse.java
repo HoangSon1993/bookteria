@@ -16,6 +16,7 @@ public class PostResponse {
 
     String userId;
     String content;
+    String created;
     Instant createdDate;
     Instant modifiedDate;
 }
