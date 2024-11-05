@@ -1,15 +1,11 @@
 package org.sondev.post.controller;
 
-import java.util.List;
-
 import org.sondev.post.dto.request.PostRequest;
 import org.sondev.post.dto.response.ApiResponse;
+import org.sondev.post.dto.response.PageResponse;
 import org.sondev.post.dto.response.PostResponse;
 import org.sondev.post.service.PostService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,9 +26,11 @@ public class PostController {
     }
 
     @GetMapping("/my-post")
-    ApiResponse<List<PostResponse>> getAllPosts() {
-        return ApiResponse.<List<PostResponse>>builder()
-                .result(postService.getMyPosts())
+    ApiResponse<PageResponse<PostResponse>> getAllPosts(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+        return ApiResponse.<PageResponse<PostResponse>>builder()
+                .result(postService.getMyPosts(page, size))
                 .build();
     }
 }

@@ -1,13 +1,16 @@
 package org.sondev.post.service;
 
 import java.time.Instant;
-import java.util.List;
 
 import org.sondev.post.dto.request.PostRequest;
+import org.sondev.post.dto.response.PageResponse;
 import org.sondev.post.dto.response.PostResponse;
 import org.sondev.post.entity.Post;
 import org.sondev.post.mapper.PostMapper;
 import org.sondev.post.repository.PostRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -37,11 +40,28 @@ public class PostService {
         return postMapper.toPostResponse(post);
     }
 
-    public List<PostResponse> getMyPosts() {
+    public PageResponse<PostResponse> getMyPosts(int page, int size) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
-        return postRepository.findAllByUserId(userId).stream()
-                .map((p) -> postMapper.toPostResponse(p))
-                .toList();
+
+        if (page < 1) page = 1;
+        if (size < 5) size = 5;
+
+        // phan trang
+        Sort sort = Sort.by("createdDate").descending();
+
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+
+        var pageData = postRepository.findAllByUserId(userId, pageable);
+
+        return PageResponse.<PostResponse>builder()
+                .currentPage(page)
+                .pageSize(pageData.getSize())
+                .totalPages(pageData.getTotalPages())
+                .totalElements(pageData.getTotalElements())
+                .data(pageData.getContent().stream()
+                        .map(postMapper::toPostResponse)
+                        .toList())
+                .build();
     }
 }
